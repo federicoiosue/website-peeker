@@ -12,12 +12,10 @@ import org.springframework.stereotype.Service
 import java.io.File
 import java.io.IOException
 
-
 @Service
 @Slf4j
 class FirefoxWebDriverService(
-    @Value("\${webdriver.gecko.driver}")
-    private val webDriverPath: String
+    @Value("\${webdriver.gecko.driver}") private val webDriverPath: String
 ) : WebDriverService {
 
     lateinit var driver: WebDriver
@@ -30,6 +28,7 @@ class FirefoxWebDriverService(
 
     @Throws(IOException::class)
     override fun peek(url: String) {
+        driver.manage().deleteAllCookies()
         driver[url]
         val scrFile: File = (driver as TakesScreenshot).getScreenshotAs(OutputType.FILE)
         println("Took Screenshot for $url and saved as $scrFile")

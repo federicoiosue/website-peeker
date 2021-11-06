@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController
 class WebsiteController(val webDriverService: WebDriverService) {
 
     @GetMapping
-    fun peek(@RequestParam url: String) {
-        webDriverService.peek(url)
+    fun peek(@RequestParam url: String, @RequestParam width: Int, @RequestParam height: Int) {
+        @RequestParam(required = false) width: Int?,
+        @RequestParam(required = false) height: Int?
+        webDriverService.peek(url, width, height)
     }
+
 }

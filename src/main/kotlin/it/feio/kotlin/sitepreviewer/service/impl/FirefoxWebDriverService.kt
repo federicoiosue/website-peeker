@@ -5,10 +5,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lombok.extern.slf4j.Slf4j
+import org.openqa.selenium.Dimension
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.TakesScreenshot
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.firefox.FirefoxOptions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.File
@@ -24,16 +26,19 @@ class FirefoxWebDriverService(
 
     init {
         System.setProperty("webdriver.gecko.driver", webDriverPath)
-        driver = FirefoxDriver()
+        val firefoxOptions = FirefoxOptions()
+        firefoxOptions.addArguments("--headless")
+        driver = FirefoxDriver(firefoxOptions)
     }
 
-    override fun peek(url: String) {
+    override fun peek(url: String, width: Int?, height: Int?) {
+        driver.manage().deleteAllCookies()
+        driver.manage().window().size = Dimension(width?:1024, height?:768)
         peekDelayed(url)
     }
 
     fun peekDelayed(url: String) = runBlocking {
         launch {
-            driver.manage().deleteAllCookies()
             driver[url]
             delay(2000L)
             val scrFile: File = (driver as TakesScreenshot).getScreenshotAs(OutputType.FILE)

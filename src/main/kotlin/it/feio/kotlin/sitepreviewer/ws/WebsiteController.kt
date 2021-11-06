@@ -1,22 +1,26 @@
 package it.feio.kotlin.sitepreviewer.ws
 
 import it.feio.kotlin.sitepreviewer.service.WebDriverService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.MediaType
+import org.springframework.util.FileCopyUtils
+import org.springframework.web.bind.annotation.*
+import java.io.BufferedInputStream
+import java.io.IOException
 
 @RestController
 @RequestMapping("website")
 class WebsiteController(val webDriverService: WebDriverService) {
 
-    @GetMapping("{url}")
-    fun peek(@RequestParam url: String, @RequestParam width: Int, @RequestParam height: Int) {
+    @ResponseBody
+    @GetMapping("{url}", produces = [MediaType.IMAGE_JPEG_VALUE])
+    @Throws(IOException::class)
+    suspend fun peek(
         @PathVariable url: String,
         @RequestParam(required = false) width: Int?,
         @RequestParam(required = false) height: Int?
-    ) {
-        webDriverService.peek(url, width, height)
+    ): ByteArray {
+        val screenshot = webDriverService.peek(url, width, height)
+        return FileCopyUtils.copyToByteArray(BufferedInputStream(screenshot.inputStream()))
     }
 
 }

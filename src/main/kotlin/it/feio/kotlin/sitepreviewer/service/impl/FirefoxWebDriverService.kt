@@ -2,7 +2,6 @@ package it.feio.kotlin.sitepreviewer.service.impl
 
 import it.feio.kotlin.sitepreviewer.service.WebDriverService
 import it.feio.kotlin.sitepreviewer.utils.fixUrl
-import kotlinx.coroutines.delay
 import lombok.extern.slf4j.Slf4j
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.OutputType
@@ -13,10 +12,7 @@ import org.openqa.selenium.firefox.FirefoxOptions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
-import org.springframework.util.FileCopyUtils
-import java.io.BufferedInputStream
 import java.io.File
-import java.io.InputStream
 
 
 @Service
@@ -39,7 +35,7 @@ class FirefoxWebDriverService(
 
     override suspend fun peek(url: String, width: Int?, height: Int?): File {
         openSite(width, height, url)
-        return takeScreenshot()?: notFoundImage!!.file
+        return takeScreenshot() ?: notFoundImage!!.file
     }
 
     private fun openSite(width: Int?, height: Int?, url: String) {
@@ -48,8 +44,8 @@ class FirefoxWebDriverService(
         driver[fixUrl(url)]
     }
 
-    private suspend fun takeScreenshot(): File? {
-        delay(2000L)
+    private fun takeScreenshot(): File? {
+        Thread.sleep(2000)
         return (driver as TakesScreenshot).getScreenshotAs(OutputType.FILE)
     }
 

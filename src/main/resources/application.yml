@@ -1,3 +1,6 @@
 webdriver:
   gecko:
     driver: bin/geckodriver
+security:
+    user: user
+    pass: pass

@@ -1,6 +1,7 @@
 package it.feio.kotlin.sitepreviewer.ws
 
 import it.feio.kotlin.sitepreviewer.config.Constants.CACHE_NAME
+import it.feio.kotlin.sitepreviewer.config.Constants.WEBSITE_ENDPOINT
 import it.feio.kotlin.sitepreviewer.service.WebDriverService
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.MediaType
@@ -10,7 +11,7 @@ import java.io.BufferedInputStream
 import java.io.IOException
 
 @RestController
-@RequestMapping("website")
+@RequestMapping(WEBSITE_ENDPOINT)
 class WebsiteController(val webDriverService: WebDriverService) {
 
     @ResponseBody

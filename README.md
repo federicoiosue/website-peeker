@@ -6,6 +6,10 @@ Spring Boot application for taking instants images of online websites, for previ
 
 ## Build & Run
 
+```bash
+mvn clean spring-boot:run
+```
+
 ## Usage
 
 ### Peek for a website screenshot

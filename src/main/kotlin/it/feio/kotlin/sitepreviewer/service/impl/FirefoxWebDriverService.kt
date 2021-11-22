@@ -33,7 +33,7 @@ class FirefoxWebDriverService(
         driver = FirefoxDriver(firefoxOptions)
     }
 
-    override suspend fun peek(url: String, width: Int?, height: Int?): File {
+    override fun peek(url: String, width: Int?, height: Int?): File {
         openSite(width, height, url)
         return takeScreenshot() ?: notFoundImage!!.file
     }
